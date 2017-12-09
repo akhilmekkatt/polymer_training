@@ -1,0 +1,70 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-icons/iron-icons.html">
+<link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../icon-toggle.html">
+
+
+<dom-module id="demo-element">
+  <template>
+    <style>
+      :host {
+        font-family: sans-serif;
+      }
+    </style>
+  
+    <h3>Statically-configured icon-toggles</h3>
+    
+    <icon-toggle toggle-icon="star" pressed={{colorChanged}}></icon-toggle>
+    <icon-toggle toggle-icon="star" pressed={{colorChanged}}></icon-toggle>
+    
+    <h3>Data-bound icon-toggle</h3>
+
+    <!-- use a computed binding to generate the message -->
+    <div><span>[[_message(isFav)]]</span></div>
+
+    <!-- curly brackets ({{}}} allow two-way binding --> 
+    <icon-toggle toggle-icon="favorite" pressed="{{isFav}}"></icon-toggle>
+
+    <br>
+    <paper-button class="blue" on-click="changeColor">Change Color</paper-button>
+
+    <input type="text" value="{{myprop::input}}">
+
+    <p>[[myprop]]</p>
+
+  </template>
+
+  <script>
+    class DemoElement extends Polymer.Element {
+      static get is() { return 'demo-element' }
+      static get properties(){
+        return{
+          colorChanged:{
+            type:Boolean,
+            value:false,
+            reflectToAttribute:true
+          },
+          myprop:{
+            type:String,
+            reflectToAttribute:true
+          }
+        }
+      }
+      _message(fav) {
+        if (fav) {
+          return 'You really like me!';
+        } 
+        else {
+          return 'Do you like me?';
+        }
+      }
+
+      changeColor(){
+        console.log("click...");
+        this.colorChanged = !this.colorChanged;
+
+      }
+    }
+    customElements.define(DemoElement.is, DemoElement);
+    </script>
+</dom-module>
